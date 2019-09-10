@@ -1,1 +1,76 @@
+		Hyperledger Installation  On Distributed Setup
+
+Install Go,docker,curl,node.js,npm and docker-compose
+1.Docker Installation:
+1. sudo apt-get update
+2.  sudo curl -sSL https://get.docker.com/ | sh
+
+
+----optional  docker compose ,npm,node.js------
+Docker compose installation
+  1.  sudo apt update
+  2.  sudo apt install docker-compose
+
+
+
+    2. For node.js and npm please follow these stepwise
+1. sudo bash -c "cat >/etc/apt/sources.list.d/nodesource.list" <<EOL
+deb https://deb.nodesource.com/node_6.x xenial main
+deb-src https://deb.nodesource.com/node_6.x xenial main
+EOL
+2. curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | sudo apt-key add –
+3. $ sudo apt update
+4. $ sudo apt install nodejs
+5. $ sudo apt install npm
+ 3. Go installation
+1.	sudo curl -O https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz
+2.	 sudo tar -xvf go1.9.2.linux-amd64.tar.gz
+3.	$ sudo mv go /usr/local
+4.	$ echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
+5.	$ source ~/.profile
+
+
+ 4. Hyperledger Installation
+!! Prerequisites  :
+1.	hostname  of nodes has to be notified   and  edit it in the docker-stack-template.yml
+      Ex :----Node.hostname== node_name
+2. Assign Subnet range and gateway IP 
+Installation
+1.	Install binaries curl -sSL https://goo.gl/6wtTN5 | bash -s 1.0.4
+2.	export PATH=$PWD/bin:$PATH
+3.	git clone https://github.com/hyperledger/fabric-samples.git
+4.	docker stop `docker ps -qa`
+5.	docker rm `docker ps -qa`
+6.	docker rmi –f `docker images -q`
+7.	cd fabric-samples/first-network
+8.	Replace the script.sh  byfn.sh in the manager node with the file I have sent ‘script.sh’ ‘byfn.sh’
+9.	Upload the docker-stack-template.yml file 
+10.	docker swarm init –advertise-addr <ipaddress of manager >
+11.	Go to  node 2  and  join the swarm using the token generated .
+
+12.	docker network create –attachable –-driver overlay –-subnet<ip address/mask> --gateway<first ip address of subnet> byfn
+
+
+
+!!!!----IMP --- assign a subnet as the byfn can conflict with other subnet if not specified in the command--!!
+
+ 
+      
+13.	./byfn –m generate
+14.	Copy the crpto-config and channel artifacts folder into another node and make sure it has the same folder structure as of node 1
+15.	Replace the script.sh in the manager node with the file I have sent ‘script.sh’
+
+16.	./byfn –m up
+
+17.	Now u can go into cli container and run the script file  ‘script.sh’.
+
+
+
+
+
+
+
+
+
+
 
